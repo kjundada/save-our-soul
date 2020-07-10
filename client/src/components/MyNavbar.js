@@ -6,16 +6,22 @@ import {
 } from 'reactstrap';
 
 class MyNavbar extends Component {
-    render() {
-        return (
-            <div>
-                <Navbar color="dark" dark>
-                    <NavbarBrand className="brand" href="/">SaveOurSoul</NavbarBrand>
-                    <NavbarText className="ml-auto">To Be Added</NavbarText>
-                </Navbar>
-            </div>
-        );
+  constructor(props) {
+    super(props);
+    this.state = {
+        id: 'Welcome!'
     }
+  }
+  render() {
+    return (
+      <div>
+          <Navbar color="dark" dark>
+              <NavbarBrand className="brand" href="/">SaveOurSoul</NavbarBrand>
+              <NavbarText className="ml-auto">{this.state.id}</NavbarText>
+          </Navbar>
+      </div>
+    );
+  }
 }
 
 export default MyNavbar;
