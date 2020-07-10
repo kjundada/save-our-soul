@@ -15,7 +15,7 @@ class MyNavbar extends Component {
   render() {
     return (
       <div>
-          <Navbar color="dark" dark>
+          <Navbar color="dark" dark fixed="top">
               <NavbarBrand className="brand" href="/">SaveOurSoul</NavbarBrand>
               <NavbarText className="ml-auto">{this.state.id}</NavbarText>
           </Navbar>
