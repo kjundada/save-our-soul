@@ -1,9 +1,5 @@
-.brand {
-  position: absolute;
-  left: 50%;
-  margin-left: -50px !important;
-  display: block;
-  color: white;
+.App {
+  text-align: center;
 }
 
 .main-container {
