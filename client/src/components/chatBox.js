@@ -1,135 +1,19 @@
-/*import 'react-chatbox-component/dist/style.css';
-import { ChatBox } from 'react-chatbox-component';
-import React, { Component } from 'react';
-
-class chatBox extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            messages : [],
-            user :"",
-        }
-    }
-   messages = [{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  }, {
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },{
-    "text": "Hello there",
-    "id": "1",
-    "sender": {
-      "name": "Ironman",
-      "uid": "user1",
-    },
-  },]
-   user = {
-    "uid": "user2"
-  }
-  onsubmit = e =>{
-        
-       /*this.setState(state => {
-
-            const messages = state.messages.concat({ 
-                "text": "Hello there",
-                "id": "1",
-                "sender": {
-                  "name": "Ironman",
-                  "uid": "user1",
-                },
-              });
-            return {
-            messages,
-            };
-        }
-        );
-        
-    };
-  render=()=> {
-    return ( <div className = 'container' style = { { maxWidth: '800px',  paddingTop: '100px' } } >
-      <div className = 'chat-header' >
-      <h5 > Chat with a Stranger </h5> </div>
-      <ChatBox bgcolor='#000000' messages = {this.messages}  user = { this.user } onSubmit = {this.onsubmit()}  typingIndicator = {true} /> </div>
-    )
-  }
-} export default chatBox*/
-//;
 import 'react-chatbox-component/dist/style.css';
 import MessageList from './MessageList';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+
 class ChatBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
       message: '',
-      messages: [],
+      messages: this.props.messages,
+      user: this.props.user
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.message !== this.state.message && this.props.typingListener) {
-      this.props.typingListener();
-    }
     this.scrollToBottom();
   }
 
@@ -146,39 +30,24 @@ class ChatBox extends Component {
   };
 
   onSubmit = (message) => {
-    
-        this.setState(state => {
-        const len = state.messages.length
-        const messages = state.messages.concat({ 
+        this.props.messages.push({ 
             "text": message,
-            "id": len+1,
+            "id": this.props.messages.length+1,
             "sender": {
             "name": "Stranger",
-            "uid": this.uid,
+            "uid": this.state.user.uid,
             },
         });
-        return {
-        messages,
-        };
-    }, (m)=> this.setState(messages= {m} )
-    );
-    console.log(this.messages)
 }
-
+awaein= (messages) =>{console.log(messages)}
   render() {
-    let {messages, isLoading, user, renderMessage} = this.props;
+    let {isLoading, user, renderMessage, messages} = this.props;
     let {message} = this.state;
-
+    this.awaein(messages)
     return (
         
             <div className='chat-box'>
               <div className='msg-page'>
-              <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
                 <MessageList
                   isLoading={isLoading}
                   messages={messages} 
@@ -186,7 +55,6 @@ class ChatBox extends Component {
                   renderMessage={renderMessage}
                 />
                 <div className='chat-box-bottom'>
-                  { this.props.typingIndicator?this.props.typingIndicator:'' }
                   <div id='end-of-chat'></div>
                 </div>
               </div>
@@ -230,12 +98,19 @@ ChatBox.defaultProps = {
       "name": "Ironman",
       "uid": "user1",
     },
+  },{
+    "text": "Hello there",
+    "id": "1",
+    "sender": {
+      "name": "Ironman",
+      "uid": "user2",
+    },
   },],
+
   user: {
     "uid": "user1"
   },
   isLoading: false,
-  
 };
 
 export default ChatBox;
