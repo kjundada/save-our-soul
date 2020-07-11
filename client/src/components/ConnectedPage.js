@@ -225,7 +225,7 @@ export default function ConnectedPage() {
           </div>
           <div className="row" >
             <video className = "vid" id="localVideo" playsInline autoPlay></video>
-            <button className="button" id="control" onClick={handleStartClick} >Start</button>
+            
             <button className="button" id="control" onClick >Report</button>
             <button className="button" id="control" onClick={nextPartner} >Next</button>
             </div>
