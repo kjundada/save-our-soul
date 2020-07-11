@@ -56,7 +56,7 @@
 
 .center {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
@@ -89,4 +89,12 @@
   margin-top: 30px;
   font-weight: bolder !important;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.heading-text {
+  font-size: 800%;
+  color: white;
+  text-align: center;
+  padding-top: 20px;
+  font-family: fantasy;
 }

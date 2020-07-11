@@ -28,9 +28,19 @@ class ChatBox extends Component {
     chat.scrollIntoView();
   };
 
+  onSubmit = (message) => {
+        this.props.messages.push({ 
+            "text": message,
+            "id": this.props.messages.length+1,
+            "sender": {
+            "name": "Stranger",
+            "uid": this.state.user.uid,
+            },
+        });
+  }
+  
   render() {
     let {message} = this.state;
-
     return (
         
       <div className='chat-box'>
