@@ -1,15 +1,13 @@
 import io from "socket.io-client";
 import {clear, writePartnerMessage, writeSytemInfo} from './chat-box';
 const socket = io('http://localhost:4000');
-const localVideo = document.querySelector('.localVideo'); //your video element
-const remoteVideo = document.querySelector('.remoteVideo'); //remote video element
+let localVideo = document.getElementById('localVideo'); //your video element
+let remoteVideo = document.getElementById('remoteVideo'); //remote video element
 let hasPartner = false;
 let isVideoChat = true;
 let partnerIsStreaming = false;
-let localMediaStream = null;
 let peerConnection;
 let getUserMediaAttempts = 5;
-let gettingUserMedia = false;
 
 /** @type {RTCConfiguration} */
 const config = {
@@ -29,7 +27,7 @@ socket.on('sysinfo', handleSysInfo);
 
 
 socket.on('ready', function() {
-  console.log("Client is getting ready");
+  console.log("Client is getting ready", localVideo, remoteVideo);
   peerConnection = new RTCPeerConnection(config);
 
   peerConnection.addStream(localVideo.srcObject);
@@ -102,6 +100,7 @@ export function nextPartner() {
   clear();
   disconnectFromPartner();
   socket.emit('next');
+  console.log("Emitted next");
 }
 
 function sendLocalInfo() {
@@ -117,44 +116,6 @@ function disconnectFromPartner() {
   if (peerConnection && peerConnection.close) peerConnection.close();
   peerConnection = null;
   partnerIsStreaming = false;
-}
-
-
-function getUserMediaSuccess(stream) {
-  console.log("User media success");
-  localMediaStream = stream;
-  sendLocalInfo();
-
-  gettingUserMedia = false;
-  if (localVideo instanceof HTMLVideoElement) {
-    !localVideo.srcObject && (localVideo.srcObject = stream);
-  }
-}  
-
-
-function getUserMediaError(error) {
-  console.log(error);
-  localMediaStream = null;
-  sendLocalInfo();
-
-  gettingUserMedia = false;
-  // (--getUserMediaAttempts > 0) && setTimeout(getUserMediaDevices, 1000);
-}
-
-
-
-export function tryVideoChat() {
-  console.log("Asking for video permission");
-  if (localVideo instanceof HTMLVideoElement) {
-    if (localVideo.srcObject) {
-      getUserMediaSuccess(localVideo.srcObject);
-    } else if (!gettingUserMedia && !localVideo.srcObject) {
-      gettingUserMedia = true;
-      navigator.mediaDevices.getUserMedia(constraints)
-      .then(getUserMediaSuccess)
-      .catch(getUserMediaError);
-    }
-  }
 }
 
 
