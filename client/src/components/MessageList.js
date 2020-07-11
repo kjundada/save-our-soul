@@ -1,10 +1,11 @@
 import React from 'react';
 import MDSpinner from 'react-md-spinner';
+import UserImage from '../img/user.jpg'
 
 class MessageList extends React.Component {
   render() {
     const {isLoading, messages, user} = this.props;
-
+    console.log(this.messages)
     let chatContent = (
       <div className='loading-messages-container'>
         <MDSpinner size='100' />
@@ -43,7 +44,7 @@ class MessageList extends React.Component {
               className='chat-bubble-row'
               style={{flexDirection: isUser ? 'row-reverse' : 'row'}}>
               <img
-                src= "../img/user.jpg"
+                src = {UserImage}
                 alt='sender avatar'
                 className='avatar'
                 style={isUser ? {marginLeft: '15px'} : {marginRight: '15px'}}
