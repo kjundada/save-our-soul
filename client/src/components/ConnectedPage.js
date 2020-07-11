@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {} from 'reactstrap';
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 import ChatBox from "./ChatBox";
 import MyNavbar from "./MyNavbar";
@@ -29,7 +29,6 @@ export default function ConnectedPage() {
   let [hasPartner, setHasPartner] = useState(false);
   let [messages, setMessages] = useState([]);
 
-
   React.useEffect(()=>{
     socket = io('http://localhost:4000');
     localVideo = document.getElementById('localVideo');
@@ -50,7 +49,6 @@ export default function ConnectedPage() {
       });
       setMessages(messages);
     });
-
 
     socket.on('ready', function() {
       console.log("Client is getting ready", localVideo, remoteVideo);
@@ -75,7 +73,6 @@ export default function ConnectedPage() {
       };
     });
 
-
     socket.on('offer', function(description) {
       const peerConnection = new RTCPeerConnection(config);
       if (localVideo instanceof HTMLVideoElement) {
@@ -97,7 +94,6 @@ export default function ConnectedPage() {
         }
       };
     });
-
 
     socket.on('answer', function (description) {
       if (peerConnection) {
@@ -184,7 +180,6 @@ export default function ConnectedPage() {
     partnerIsStreaming = false;
   }
 
-
   function sendLocalInfo(){
     socket.emit('info', info)
   }
@@ -209,10 +204,7 @@ export default function ConnectedPage() {
     writeSytemInfo(code);
   }
 
-
-
-  return (
-            
+  return (        
     <div className="conn">
         <div className="row" >
           <div classname="col" opacity={0}>ffff</div>
@@ -225,7 +217,7 @@ export default function ConnectedPage() {
           </div>
           <div className="row" >
             <video className = "vid" id="localVideo" playsInline autoPlay></video>
-            
+            <button className="button" id="control" /*onClick={handleStartClick}*/ >Start</button>
             <button className="button" id="control" onClick >Report</button>
             <button className="button" id="control" onClick={nextPartner} >Next</button>
             </div>

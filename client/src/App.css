@@ -19,13 +19,13 @@
 
 #remoteVideo {
   align-items: baseline;
-  width: 150%;
-  position: relative;
+  width: 50%;
+  position: absolute;
 }
 
 #localVideo {
-  width: 50%;
-  position: relative;
+  width: 10%;
+  position: absolute;
 }
 .vid{
   border-radius: 20%;
@@ -356,4 +356,8 @@
 
 .chat-box-bottom {
   margin-top: auto;
+}
+
+.video-container {
+  position:relative;
 }
