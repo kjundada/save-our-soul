@@ -15,7 +15,7 @@ function App() {
     <Router>
       <div className="App">
         <Route path="/" component={ MyNavbar } />
-        <Route exact path="/" component={ Chat } />
+        <Route exact path="/" component={ LandingPage } />
         <Route exact path="/connect" component={ ConnectedPage } />
         <Route exact path="/CB" component={ ChatBox } />
       </div>

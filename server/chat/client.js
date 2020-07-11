@@ -110,8 +110,9 @@ function client(socket) {
   }
 
   function isValidPartner(partner) {
+    // console.log("checking if valid partner");
     if (partner.id !== socket.id && partner.isWaiting()) {
-      if (partner.getChatType() !== chatType) return false;
+      // if (partner.getChatType() !== chatType) return false;
       let isReturningPartner = !!partnersMap[partner.id];
       if (isReturningPartner) {
         let now = Math.floor(Date.now() / 1000);

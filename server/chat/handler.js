@@ -106,6 +106,7 @@ function chatHandler() {
   function onRequestNext(client) {
     try {
       let partner = false;
+      // console.log("Finding a new partner");
 
       client.disconnectFromPartner();
       client.sendSystemInfo('waiting_partner');
@@ -116,6 +117,8 @@ function chatHandler() {
           break;
         }
       }
+
+      // console.log("Partner", partner);
 
       if (!partner) {
         if (!_.some(waitingList, ['id', client.id])) {
