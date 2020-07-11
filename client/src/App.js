@@ -8,6 +8,7 @@ import MyNavbar from './components/MyNavbar';
 import LandingPage from './components/LandingPage';
 import ConnectedPage from './components/ConnectedPage';
 import Chat from './components/Chat';
+import ChatBox from './components/chatBox'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" component={ MyNavbar } />
         <Route exact path="/" component={ LandingPage } />
         <Route exact path="/connect" component={ ConnectedPage } />
+        <Route exact path="/CB" component={ ChatBox } />
       </div>
     </Router>
   );

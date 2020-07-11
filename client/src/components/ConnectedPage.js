@@ -8,10 +8,10 @@ class ConnectedPage extends Component {
         return (
             <div className="main-container mt-2">
                 <div className="box-1">
-                    <img className="video" src={require('../img/sample.jpg')} width="100%" height="100%" />
+                    <video className="remoteVideo" playsinline autoplay></video>
                 </div>
                 <div className="box-2">
-                    <img className="video" src={require('../img/sample.jpg')} width="100%" height="100%" />
+                    <video className="localVideo" playsinline autoplay/>
                 </div>
                 <div className="chat">
                     Heyy 
