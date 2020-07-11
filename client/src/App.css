@@ -58,10 +58,11 @@
   z-index: 2;
   color: white;
   text-align: center;
+  width: 40%;
 }
 
 .drop-it {
-  width: 50%;
+  width: 40%;
   margin: 0 auto;
   border: 2px solid white !important;
   border-radius: 5px !important;
@@ -74,7 +75,7 @@
 }
 
 .chat-btn {
-  width: 50%;
+  width: 40%;
   background-color: grey !important;
   border: 2px solid grey !important;
   border-radius: 50px !important;

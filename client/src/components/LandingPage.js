@@ -13,7 +13,7 @@ class LandingPage extends Component {
         this.state = {
             problems        : ["lonely", "suicidal", "extremely depressed",
                             "homesick", "betrayed", "the loss of loved one",
-                            "like comitting to self harm"],
+                            "to harm myself"],
             ops             : ["help", "seek help"],
             selected_op     : "help",
             selected_problem: "lonely",
@@ -38,24 +38,28 @@ class LandingPage extends Component {
             <div className="landing">
                 <div className="center">
                     <h1>I am here to</h1>
-                    <Dropdown className="drop-it" isOpen={this.state.isdrop_1} toggle={() => this.setState({isdrop_1: !this.state.isdrop_1})}>
-                        <DropdownToggle className="menu" caret>
-                            {this.state.selected_op}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem value="help" id="selected_op" onClick={this.onChange}>help</DropdownItem>
-                            <DropdownItem value="seek help" id="selected_op" onClick={this.onChange}>seek help</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+                    <div className="drop-it">
+                        <Dropdown isOpen={this.state.isdrop_1} toggle={() => this.setState({isdrop_1: !this.state.isdrop_1})}>
+                            <DropdownToggle className="menu" caret>
+                                {this.state.selected_op}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem value="help" id="selected_op" onClick={this.onChange}>help</DropdownItem>
+                                <DropdownItem value="seek help" id="selected_op" onClick={this.onChange}>seek help</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                     <h1>{cond_statement}</h1>
-                    <Dropdown className="drop-it" isOpen={this.state.isdrop_2} toggle={() => this.setState({isdrop_2: !this.state.isdrop_2})}>
-                        <DropdownToggle className="menu" caret>
-                            {this.state.selected_problem}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {problems_list}
-                        </DropdownMenu>
-                    </Dropdown>
+                    <div className="drop-it">
+                        <Dropdown isOpen={this.state.isdrop_2} toggle={() => this.setState({isdrop_2: !this.state.isdrop_2})}>
+                            <DropdownToggle className="menu" caret>
+                                {this.state.selected_problem}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {problems_list}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                     <Button onClick={this.onClick} className="chat-btn">Start Chat</Button>
                 </div>
             </div>
