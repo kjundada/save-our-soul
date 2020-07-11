@@ -244,7 +244,7 @@ export default function Chat() {
 
   return (
     <div>
-        <br/>
+        {/* <br/>
         <br/>
         <br/>
         <br/>
@@ -278,7 +278,7 @@ export default function Chat() {
                 </div>
             </div>
           </div>
-        </div>
+        </div> */}
     </div>
 
   );
