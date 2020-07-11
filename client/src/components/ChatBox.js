@@ -38,11 +38,9 @@ class ChatBox extends Component {
             },
         });
 }
-awaein= (messages) =>{console.log(messages)}
   render() {
     let {isLoading, user, renderMessage, messages} = this.props;
     let {message} = this.state;
-    this.awaein(messages)
     return (
         
             <div className='chat-box'>
