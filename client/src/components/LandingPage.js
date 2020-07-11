@@ -4,7 +4,8 @@ import {
     DropdownToggle, 
     DropdownMenu, 
     DropdownItem,
-    Button
+    Button,
+    Form
 } from 'reactstrap';
 
 class LandingPage extends Component {
@@ -21,7 +22,12 @@ class LandingPage extends Component {
             isdrop_2        : false
         }
     }
-    onClick = () => {
+    onSubmit = () => {
+        const user_input = {
+            operation   : this.state.selected_op,
+            problem     : this.state.selected_problem
+        }
+        console.log(user_input)
         window.location = "/connect";
     }
     onChange = (e) => {
@@ -36,31 +42,36 @@ class LandingPage extends Component {
         );
         return (
             <div className="landing">
+                <div className="heading-text">
+                    Save Our Soul
+                </div>
                 <div className="center">
-                    <h1>I am here to</h1>
-                    <div className="drop-it">
-                        <Dropdown isOpen={this.state.isdrop_1} toggle={() => this.setState({isdrop_1: !this.state.isdrop_1})}>
-                            <DropdownToggle className="menu" caret>
-                                {this.state.selected_op}
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem value="help" id="selected_op" onClick={this.onChange}>help</DropdownItem>
-                                <DropdownItem value="seek help" id="selected_op" onClick={this.onChange}>seek help</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                    <h1>{cond_statement}</h1>
-                    <div className="drop-it">
-                        <Dropdown isOpen={this.state.isdrop_2} toggle={() => this.setState({isdrop_2: !this.state.isdrop_2})}>
-                            <DropdownToggle className="menu" caret>
-                                {this.state.selected_problem}
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                {problems_list}
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                    <Button onClick={this.onClick} className="chat-btn">Start Chat</Button>
+                    <Form noValidate onSubmit={this.onSubmit}>
+                        <h1>I am here to</h1>
+                        <div className="drop-it">
+                            <Dropdown isOpen={this.state.isdrop_1} toggle={() => this.setState({isdrop_1: !this.state.isdrop_1})}>
+                                <DropdownToggle className="menu" caret>
+                                    {this.state.selected_op}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem value="help" id="selected_op" onClick={this.onChange}>help</DropdownItem>
+                                    <DropdownItem value="seek help" id="selected_op" onClick={this.onChange}>seek help</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                        <h1>{cond_statement}</h1>
+                        <div className="drop-it">
+                            <Dropdown isOpen={this.state.isdrop_2} toggle={() => this.setState({isdrop_2: !this.state.isdrop_2})}>
+                                <DropdownToggle className="menu" caret>
+                                    {this.state.selected_problem}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    {problems_list}
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                        <Button className="chat-btn">Start Chat</Button>
+                    </Form>
                 </div>
             </div>
         );
