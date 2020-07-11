@@ -1,9 +1,102 @@
 import React from 'react';
 import '../api/chat-box';
-import {tryVideoChat} from '../api/chat-client';
+import $ from 'jquery'; 
+import {nextPartner, sendMessage as sendMessageChatClient, tryVideoChat} from '../api/chat-client';
 
 export default function Chat() {
+  let $box = $('.conversation-box');
+  let $message = $('.write-box>textarea');
+  let $controlBtn = $('#control');
+  $message.on('keydown', function(e) {
+    if (e.which == 13) sendMessage();
+  });
+  $(document).on('keyup', function(e) {
+    if (e.which == 27) $controlBtn.click();
+  });
+  
   tryVideoChat();
+
+
+
+  function clear() {
+    $box.html('');
+    $message.html('');
+  }
+
+  function sendMessage() {
+    let message = $message.val();
+    if (sendMessageChatClient(message)) {
+      let msgText = document.createTextNode(' ' + message);
+      let $userlog = $('<p class="userlog me"></p>');
+      $userlog.append('<span class="name">You</span>');
+      $userlog.append(msgText);
+      $box.append($userlog);
+      $box.scrollTop($box.prop('scrollHeight'));
+      $message.val('');
+      handleStartClick(true);
+    }
+  }
+
+  function writeSytemInfo(code) {
+    let $syslog = $('<div class="sys-info"></div>');
+
+    switch (code) {
+      case 'partner_connected':
+        clear();
+        $syslog.append('<p class="syslog"><strong>You\'re now chatting with a random stranger. Say hi!</strong></p>');
+        break;
+      case 'waiting_partner':
+        $syslog.append('<p class="syslog"><strong>Looking for someone you can talk to...</strong></p>');
+        break;
+      case 'partner_disconnected':
+        $syslog.append('<p class="syslog"><strong>Sorry. stranger has disconnected.</strong></p>');
+        $syslog.append('<p class="syslog"><strong>Click on <span class="special">next</span> to start a new chat.</strong></p>');
+        break;
+      case 'server_disconnection':
+        $syslog.append('<p class="syslog error"><strong>System error! Please refresh this page!</strong></p>');
+        break;
+      default:
+        $syslog.append(code);
+        break;
+    }
+    $box.append($syslog);
+    $box.scrollTop($box.prop('scrollHeight'));
+  }
+
+  function writePartnerMessage(msg) {
+    let msgText = document.createTextNode(' ' + msg.content);
+    let $userlog = $('<p class="userlog stranger"></p>');
+    $userlog.append('<span class="name">Stranger</span>');
+    $userlog.append(msgText);
+    $box.append($userlog);
+    $box.scrollTop($box.prop('scrollHeight'));
+  }
+
+
+  function handleChatButtonClick() {
+    sendMessage();
+  }
+  
+
+  function handleStartClick(reset){
+    console.log("control clicked!");
+    let current = $controlBtn.attr('data-current');
+    if (reset === true) {
+      $controlBtn.text('next');
+      $controlBtn.attr('data-current', 'next');
+      $controlBtn.removeClass('red');
+    } else if (current === 'start' || current === 'really') {
+      $controlBtn.text('next');
+      $controlBtn.attr('data-current', 'next');
+      $controlBtn.removeClass('red');
+      nextPartner();
+    } else {
+      $controlBtn.text('really?');
+      $controlBtn.attr('data-current', 'really');
+      $controlBtn.addClass('red');
+    }
+  }
+
   return (
     <div>
         <br/>
@@ -17,7 +110,7 @@ export default function Chat() {
             <div className="logo">
               <a href="./"><img src="img/logo.png" width="75px" alt="Save Our Soul"/></a>
             </div>
-            <button className="btn green" type="button" name="action" id="control" data-current="start">start</button>
+            <button className="btn green" onClick={handleStartClick} >start</button>
             <div className="online-count">
               <strong>x</strong> online now
             </div>
@@ -32,21 +125,12 @@ export default function Chat() {
             <div className="text basic-shadow">
                 <div className="conversation-box" id="conversation-box">
                   <p className="syslog"><strong>Hi, welcome to <span className="special">Save Our Soul</span>!</strong></p>
-                  <p></p>
-                  <p></p>
-                  <p className="syslog"><strong>Save Our Soul</strong> (oh·me·goal) is a great way to meet new friends.</p>
-                  <p className="syslog">When you use Save Our Soul, we pick someone else at random and let you talk one-on-one.</p>
-                  <p className="syslog">To help you stay safe, chats are anonymous unless you tell someone who you are (not suggested!),</p>
-                  <p className="syslog">and you can stop a chat at any time.</p>
-                  <p className="syslog">If you can't be nice, please don't use Save Our Soul.</p>
-                  <p></p>
-                  <p></p>
                   <p className="syslog"><strong>Click on the <span className="special">start</span> button (on top bar) or press <span className="special">ESC</span> and <i>have a nice chatting!</i></strong></p>
                   <p></p>
                 </div>
                 <div className="write-box">
                   <textarea name="message"></textarea>
-                  <button className="btn" type="button" name="button">send</button>
+                  <button className="btn" onClick={handleChatButtonClick}>send</button>
                 </div>
             </div>
           </div>

@@ -5,6 +5,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './api/app';
+import './api/chat-box';
+import './api/chat-client';
+
+
 
 ReactDOM.render(
   <React.StrictMode>
