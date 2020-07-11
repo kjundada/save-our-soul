@@ -1,4 +1,4 @@
-import 'react-chatbox-component/dist/style.css';
+
 import MessageList from './MessageList';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';

@@ -212,20 +212,25 @@ export default function ConnectedPage() {
 
 
   return (
-    <div>
-      <MyNavbar/>
-      <div className="row">
-        <div className="column chat-column">
-          <ChatBox sendMessage={sendMessage} messages={messages} isLoading={false}/>
+            
+    <div className="conn">
+        <div className="row" >
+          <div classname="col" opacity={0}>ffff</div>
+        <div className = "column chat-column">
+          <ChatBox className= "chat-column" sendMessage={sendMessage} messages={messages} isLoading={false}/>
         </div>
-        <div className="column video-column">
-          <div className="main-container mt-2">
-            <video id="localVideo" playsInline autoPlay></video>
-            <video id="remoteVideo" playsInline autoPlay></video>
-            <button onClick={nextPartner} >next</button>
+        <div className = "column video-column">
+          <div className="row" >
+            <video className = "vid" id="remoteVideo" playsInline autoPlay></video>
+          </div>
+          <div className="row" >
+            <video className = "vid" id="localVideo" playsInline autoPlay></video>
+            <button className="button" id="control" onClick={handleStartClick} >Start</button>
+            <button className="button" id="control" onClick >Report</button>
+            <button className="button" id="control" onClick={nextPartner} >Next</button>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

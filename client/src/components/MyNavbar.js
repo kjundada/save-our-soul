@@ -16,14 +16,16 @@ class MyNavbar extends Component {
     return (
       <div>
           <Navbar color="light" light fixed="top">
-              <NavbarText className="ml-auto">
+              
+              <NavbarText className="ml-left">{this.state.id}</NavbarText>
+              <p className="brand-aaa" href="/">SaveOurSoul</p>
+              
+              <NavbarText >
                 <div className="online-count">
                   <strong>x</strong> online now
                 </div>
               </NavbarText>
               
-              <NavbarBrand className="brand" href="/">SaveOurSoul</NavbarBrand>
-              <NavbarText className="ml-auto">{this.state.id}</NavbarText>
           </Navbar>
           <br/>
           <br/>
