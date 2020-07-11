@@ -8,13 +8,15 @@ class ChatBox extends Component {
     super(props);
     this.state = {
       message: '',
-      user: this.props.user
+      user: props.user,
+      messages: props.messages,
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.scrollToBottom();
   }
+  
 
   handleSendMessage = event => {
     event.preventDefault();
@@ -27,22 +29,11 @@ class ChatBox extends Component {
     const chat = document.getElementById('end-of-chat');
     chat.scrollIntoView();
   };
-
-  onSubmit = (message) => {
-        this.props.messages.push({ 
-            "text": message,
-            "id": this.props.messages.length+1,
-            "sender": {
-            "name": "Stranger",
-            "uid": this.state.user.uid,
-            },
-        });
-  }
   
   render() {
     let {message} = this.state;
+    
     return (
-        
       <div className='chat-box'>
         <div className='msg-page'>
           <MessageList
@@ -78,7 +69,6 @@ class ChatBox extends Component {
 
 ChatBox.propTypes = {
   messages: PropTypes.array,
-  onSubmit: PropTypes.func,
   isLoading: PropTypes.bool,
   user: PropTypes.object,
   renderMessage: PropTypes.func,

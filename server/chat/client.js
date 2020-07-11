@@ -7,7 +7,7 @@ function client(socket) {
   let videoHandshake = {};
   let currentPartner = false;
   let isWaiting = true;
-  let chatType;
+  let chatInfo;
 
   resetVideoHandshake();
   return {
@@ -23,10 +23,10 @@ function client(socket) {
     sendVideoOffer,
     sendVideoOfferResponse,
     sendVideoICE,
-    setChatType,
+    setchatInfo,
     isWaiting: () => isWaiting,
     getPartner: () => currentPartner,
-    getChatType: () => chatType
+    getchatInfo: () => chatInfo
   };
 
   function setPartnerInfo(partner) {
@@ -42,8 +42,8 @@ function client(socket) {
     partner.sendSystemInfo('partner_connected');
   }
 
-  function setChatType(type) {
-    chatType = type;
+  function setchatInfo(type) {
+    chatInfo = type;
   }
 
   function resetVideoHandshake() {
@@ -112,7 +112,11 @@ function client(socket) {
   function isValidPartner(partner) {
     // console.log("checking if valid partner");
     if (partner.id !== socket.id && partner.isWaiting()) {
-      // if (partner.getChatType() !== chatType) return false;
+      const partnerInfo = partner.getchatInfo();
+      if (partnerInfo.op === chatInfo.op) { // do not connect helpers with helpers and vice versa 
+        return false;
+      }
+
       let isReturningPartner = !!partnersMap[partner.id];
       if (isReturningPartner) {
         let now = Math.floor(Date.now() / 1000);

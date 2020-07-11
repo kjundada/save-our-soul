@@ -61,7 +61,7 @@ function chatHandler() {
 
   function onReceiveInfo(client, info) {
     try {
-      client.setChatType(info.isVideoChat ? 1 : 0);
+      client.setchatInfo(info);
     } catch (e) {
       console.log('[ERROR] ', e.message);
     }

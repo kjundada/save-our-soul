@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {} from 'reactstrap';
 import { useLocation} from "react-router-dom";
 import io from "socket.io-client";
@@ -26,8 +26,8 @@ export default function ConnectedPage() {
   let remoteVideo;
   let peerConnection;
   let partnerIsStreaming = false;
-  const [hasPartner, setHasPartner] = React.useState(false);
-  const [messages, setMessages] = React.useState([]);
+  let [hasPartner, setHasPartner] = useState(false);
+  let [messages, setMessages] = useState([]);
 
 
   React.useEffect(()=>{
@@ -40,7 +40,6 @@ export default function ConnectedPage() {
     .catch(err => console.log(err));
 
     socket.on('sysinfo', sendLocalInfo);
-
 
     socket.on('msg', function(msg) { //whenever a msg is recieved by the client
       // write the partner's message to the list
@@ -187,7 +186,7 @@ export default function ConnectedPage() {
 
 
   function sendLocalInfo(){
-    socket.emit('info', {isVideoChat: true, info})
+    socket.emit('info', info)
   }
 
   function handleSysInfo(code) {
