@@ -1,6 +1,18 @@
+body, html {
+  height: 100%;
+}
+
 .main-container {
   width: 95%;
   margin: 0 auto;
+}
+
+.brand {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px !important;
+  display: block;
+  color: white;
 }
 
 .box-1, .box-2 {
@@ -30,4 +42,14 @@
   position: absolute;
   bottom: 10px;
   left: 2.5%;
+}
+
+.landing {
+  height: 100vh;
+  background: url(./img/background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index: -999;
 }

@@ -6,9 +6,7 @@ import {
 class LandingPage extends Component {
     render() {
         return (
-            <div>
-                In Progress
-            </div>
+            <div className="landing"></div>
         );
     }
 }
