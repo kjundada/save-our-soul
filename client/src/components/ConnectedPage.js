@@ -1,9 +1,9 @@
 import React from 'react';
 import {} from 'reactstrap';
 import { useLocation} from "react-router-dom";
-import $ from 'jquery'; 
 import io from "socket.io-client";
 import ChatBox from "./ChatBox";
+let socket;
 
 /** @type {RTCConfiguration} */
 const config = {
@@ -21,241 +21,206 @@ video: { facingMode: "user" }
 export default function ConnectedPage() {
   const query = new URLSearchParams(useLocation().search);
   const info = {op: query.get('op'), problem: query.get('problem')};
-  let socket;
   let localVideo;
   let remoteVideo;
   let peerConnection;
-  let hasPartner = false;
   let partnerIsStreaming = false;
-  let $box;
-  let $message;
-  let $controlBtn;
+  const [hasPartner, setHasPartner] = React.useState(false);
+  const [messages, setMessages] = React.useState([]);
 
 
   React.useEffect(()=>{
     socket = io('http://localhost:4000');
-    console.log(socket, " socket connection established.");
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
-    $box = $('#conversation-box');
-    $message = $('#textmessage');
-    $controlBtn = $('#control');
-
 
     navigator.mediaDevices.getUserMedia(constraints)
     .then(stream => localVideo.srcObject = stream)
     .catch(err => console.log(err));
 
-    socket.on('msg', writePartnerMessage);
-    socket.on('sysinfo', handleSysInfo);
+    socket.on('sysinfo', sendLocalInfo);
+
+
+    socket.on('msg', function(msg) { //whenever a msg is recieved by the client
+      // write the partner's message to the list
+      messages.push({ 
+        "text": msg.content,
+        "id": messages.length+1,
+        "sender": { "name": "Stranger", "uid": "user2"},
+      });
+      setMessages(messages);
+    });
 
 
     socket.on('ready', function() {
-    console.log("Client is getting ready", localVideo, remoteVideo);
-    peerConnection = new RTCPeerConnection(config);
-
-    peerConnection.addStream(localVideo.srcObject);
-
-    peerConnection.createOffer()
-    .then(sdp => peerConnection.setLocalDescription(sdp))
-    .then(function () {
-      console.log("client emitting offer", peerConnection.localDescription);
-      socket.emit('ready', peerConnection.localDescription);
+      console.log("Client is getting ready", localVideo, remoteVideo);
+      
+      peerConnection = new RTCPeerConnection(config);
+      peerConnection.addStream(localVideo.srcObject);
+      peerConnection.createOffer()
+      .then(sdp => peerConnection.setLocalDescription(sdp))
+      .then(function () {
+        console.log("client emitting offer", peerConnection.localDescription);
+        socket.emit('ready', peerConnection.localDescription);
+      });
+      peerConnection.onaddstream = (event) => {
+        remoteVideo.srcObject = event.stream;
+        console.log("Setting remote video stream");
+        handleSysInfo('partner_connected');
+      }
+      peerConnection.onicecandidate = function(event) {
+        if (event.candidate) {
+          socket.emit('candidate', event.candidate);
+        }
+      };
     });
 
-    peerConnection.onaddstream = (event) => {
-      remoteVideo.srcObject = event.stream;
-      console.log("Setting remote video stream");
-    }
 
-    peerConnection.onicecandidate = function(event) {
-      if (event.candidate) {
-        socket.emit('candidate', event.candidate);
-      }
-    };
-
-      });
-
-
-      socket.on('offer', function(description) {
+    socket.on('offer', function(description) {
       const peerConnection = new RTCPeerConnection(config);
-
       if (localVideo instanceof HTMLVideoElement) {
           peerConnection.addStream(localVideo.srcObject);
       }
-
       peerConnection.setRemoteDescription(description)
       .then(() => peerConnection.createAnswer())
       .then(sdp => peerConnection.setLocalDescription(sdp))
       .then(function () {
         socket.emit('offer_ok', peerConnection.localDescription);
       });
-
       peerConnection.onaddstream = (event) => {
         remoteVideo.srcObject = event.stream;
-        console.log("Setting remote video stream");
+        handleSysInfo('partner_connected');
       };
-
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
           socket.emit('candidate', event.candidate);
         }
       };
+    });
 
-      });
 
+    socket.on('answer', function (description) {
+      if (peerConnection) {
+        peerConnection.setRemoteDescription(description);
+      }
+    });
 
-      socket.on('answer', function (description) {
-        if (peerConnection) {
-          peerConnection.setRemoteDescription(description);
-        }
-      });
+    socket.on('candidate', function(candidate) {
+      if (peerConnection) {
+        peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      }
+    });
 
-      socket.on('candidate', function(candidate) {
-        if (peerConnection) {
-          peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-        }
-      });
-
-      socket.on('disconnect', handleServerDisconnection);
+    socket.on('disconnect', () => handleSysInfo('server_disconnection'));
 
     }, [])
 
-    function clear() {
-      $box.html('');
-      $message.html('');
-    }
+
+  function clear(){
+    setMessages([]); //clear messages
+  }
+
+  function addSysLog(msg) {
+    console.log(msg);
+
+    messages.push({ 
+      "text": msg,
+      "id": messages.length+1,
+      "sender": { "name": "System", "uid": "sys",},
+    });
+    setMessages(messages);
+  }
 
   function writeSytemInfo(code) {
-    let $syslog = $('<div class="sys-info"></div>');
-
     switch (code) {
-    case 'partner_connected':
-      clear();
-      $syslog.append('<p class="syslog"><strong>You\'re now chatting with a random stranger. Say hi!</strong></p>');
-      break;
-    case 'waiting_partner':
-      $syslog.append('<p class="syslog"><strong>Looking for someone you can talk to...</strong></p>');
-      break;
-    case 'partner_disconnected':
-      $syslog.append('<p class="syslog"><strong>Sorry. stranger has disconnected.</strong></p>');
-      $syslog.append('<p class="syslog"><strong>Click on <span class="special">next</span> to start a new chat.</strong></p>');
-      break;
-    case 'server_disconnection':
-      $syslog.append('<p class="syslog error"><strong>System error! Please refresh this page!</strong></p>');
-      break;
-    default:
-      $syslog.append(code);
-      break;
+      case 'partner_connected':
+        clear();
+        addSysLog('You\'re now chatting with a random stranger. Say hi!');
+        break;
+      case 'waiting_partner':
+        addSysLog('Looking for someone you can talk to...');
+        break;
+      case 'partner_disconnected':
+        addSysLog('Sorry. stranger has disconnected.');
+        addSysLog('Click on next to start a new chat.');
+        break;
+      case 'server_disconnection':
+        addSysLog('System error! Please refresh this page!');
+        break;
+      default:
+        addSysLog(code);
+        break;
     }
-    $box.append($syslog);
-    $box.scrollTop($box.prop('scrollHeight'));
-  }
+  }  
 
-  function writePartnerMessage(msg) {
-    let msgText = document.createTextNode(' ' + msg.content);
-    let $userlog = $('<p class="userlog stranger"></p>');
-    $userlog.append('<span class="name">Stranger</span>');
-    $userlog.append(msgText);
-    $box.append($userlog);
-    $box.scrollTop($box.prop('scrollHeight'));
-  }
-
-
-  function handleChatButtonClick() {
-    let message = $message.val();
-    if (sendMessageChatClient(message)) {
-    let msgText = document.createTextNode(' ' + message);
-    let $userlog = $('<p class="userlog me"></p>');
-    $userlog.append('<span class="name">You</span>');
-    $userlog.append(msgText);
-    $box.append($userlog);
-    $box.scrollTop($box.prop('scrollHeight'));
-    $message.val('');
-    handleStartClick(true);
+  function sendMessage(msg) {
+    if (hasPartner && msg.replace(/\s+/g, '').length > 0) {
+      socket.emit('msg', msg);
+      messages.push({ 
+        "text": msg,
+        "id": messages.length+1,
+        "sender": { "name": "Me", "uid": "user1",},
+      });
+      setMessages(messages);
+      return true;
     }
-  }
-
-
-  function handleStartClick(reset){
-    console.log("control clicked!");
-    let current = $controlBtn.attr('data-current');
-    if (reset === true) {
-    $controlBtn.text('next');
-    $controlBtn.attr('data-current', 'next');
-    $controlBtn.removeClass('red');
-    } else if (current === 'start' || current === 'really') {
-    $controlBtn.text('next');
-    $controlBtn.attr('data-current', 'next');
-    $controlBtn.removeClass('red');
-    nextPartner();
-    } else {
-    $controlBtn.text('really?');
-    $controlBtn.attr('data-current', 'really');
-    $controlBtn.addClass('red');
+    else {
+      addSysLog("You cannot chat without a partner!");
+      return false;
     }
   }
 
   function nextPartner() {
-    clear();
+    //     handleSysInfo('partner_disconnected');
     disconnectFromPartner();
+    handleSysInfo('waiting_partner');
     socket.emit('next');
-    console.log("Emitted next");
-  }
-
-  function sendLocalInfo() {
-    socket.emit('info', {isVideoChat: true, info})
-  }
-
-  function handleServerDisconnection() {
-    handleSysInfo('server_disconnection');
   }
 
   function disconnectFromPartner() {
-    hasPartner = false;
+    setHasPartner(false);
     if (peerConnection && peerConnection.close) peerConnection.close();
     peerConnection = null;
     partnerIsStreaming = false;
   }
 
 
+  function sendLocalInfo(){
+    socket.emit('info', {isVideoChat: true, info})
+  }
+
   function handleSysInfo(code) {
     switch (code) {
-    case 'partner_connected':
-      hasPartner = true;
-      break;
-    case 'partner_disconnected':
-      disconnectFromPartner();
-      break;
-    case 'waiting_partner':
-      sendLocalInfo();
-      hasPartner = false;
-      break;
-    default:
+      case 'partner_connected':
+        setHasPartner(true);
+        console.log("Found a partner");
+        break;
+      case 'partner_disconnected':
+        disconnectFromPartner();
+        break;
+      case 'waiting_partner':
+        sendLocalInfo();
+        setHasPartner(false);
+        break;
+      default:
+        console.log("Invalid code");
+        break;
     }
-      writeSytemInfo(code);
+    writeSytemInfo(code);
   }
 
-
-  function sendMessageChatClient(msg) {
-    if (hasPartner && msg.replace(/\s+/g, '').length > 0) {
-    socket.emit('msg', msg);
-    return true;
-    }
-    return false;
-  }
 
 
   return (
     <div className="row">
       <div className="column chat-column">
-        <ChatBox/>
+        <ChatBox sendMessage={sendMessage} messages={messages} isLoading={false}/>
       </div>
       <div className="column video-column">
         <div className="main-container mt-2">
           <video id="localVideo" playsInline autoPlay></video>
           <video id="remoteVideo" playsInline autoPlay></video>
-          <button className="btn green" id="control" onClick={handleStartClick} >start</button>
+          <button onClick={nextPartner} >next</button>
         </div>
       </div>
     </div>
