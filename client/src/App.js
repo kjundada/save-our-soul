@@ -4,19 +4,15 @@ import {
   Route
 } from "react-router-dom";
 import './App.css';
-import MyNavbar from './components/MyNavbar';
 import LandingPage from './components/LandingPage';
 import ConnectedPage from './components/ConnectedPage';
-import ChatBox from './components/ChatBox'
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Route exact path="/" component={ LandingPage } />
-        <Route exact path="/connect" component={ MyNavbar } />
-        <Route exact path="/connect" component={ ConnectedPage } />
-        <Route exact path="/CB" component={ ChatBox } />
+        <Route path="/connect" component={ ConnectedPage } />
       </div>
     </Router>
   );

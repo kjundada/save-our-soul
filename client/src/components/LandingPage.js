@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { 
     Dropdown, 
     DropdownToggle, 
@@ -27,8 +28,8 @@ class LandingPage extends Component {
             operation   : this.state.selected_op,
             problem     : this.state.selected_problem
         }
-        console.log(user_input)
-        window.location = "/connect";
+        console.log(user_input);
+        this.props.history.push(`/connect?op=${user_input.operation}&problem=${user_input.problem}`);
     }
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value });
@@ -38,7 +39,7 @@ class LandingPage extends Component {
         const seek_help = "because I feel";
         const cond_statement = (this.state.selected_op == "help") ? to_help : seek_help;
         const problems_list = this.state.problems.map((e, i) => 
-            <DropdownItem value={e} id="selected_problem" onClick={this.onChange} index={i}>{e}</DropdownItem>
+            <DropdownItem key={i} value={e} id="selected_problem" onClick={this.onChange} index={i}>{e}</DropdownItem>
         );
         return (
             <div className="landing">
@@ -78,4 +79,4 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);

@@ -3,6 +3,7 @@ import {} from 'reactstrap';
 import { useLocation} from "react-router-dom";
 import io from "socket.io-client";
 import ChatBox from "./ChatBox";
+import MyNavbar from "./MyNavbar";
 let socket;
 
 /** @type {RTCConfiguration} */
@@ -212,15 +213,18 @@ export default function ConnectedPage() {
 
 
   return (
-    <div className="row">
-      <div className="column chat-column">
-        <ChatBox sendMessage={sendMessage} messages={messages} isLoading={false}/>
-      </div>
-      <div className="column video-column">
-        <div className="main-container mt-2">
-          <video id="localVideo" playsInline autoPlay></video>
-          <video id="remoteVideo" playsInline autoPlay></video>
-          <button onClick={nextPartner} >next</button>
+    <div>
+      <MyNavbar/>
+      <div className="row">
+        <div className="column chat-column">
+          <ChatBox sendMessage={sendMessage} messages={messages} isLoading={false}/>
+        </div>
+        <div className="column video-column">
+          <div className="main-container mt-2">
+            <video id="localVideo" playsInline autoPlay></video>
+            <video id="remoteVideo" playsInline autoPlay></video>
+            <button onClick={nextPartner} >next</button>
+          </div>
         </div>
       </div>
     </div>
