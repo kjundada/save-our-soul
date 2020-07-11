@@ -49,3 +49,39 @@
   background-size: cover;
   z-index: -999;
 }
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: white;
+  text-align: center;
+}
+
+.drop-it {
+  width: 50%;
+  margin: 0 auto;
+  border: 2px solid white !important;
+  border-radius: 5px !important;
+}
+
+.menu {
+  background-color: rgba(255, 0, 0, 0) !important;
+  border-color: rgba(255, 0, 0, 0) !important;
+  font-size: 20px !important;
+}
+
+.chat-btn {
+  width: 50%;
+  background-color: grey !important;
+  border: 2px solid grey !important;
+  border-radius: 50px !important;
+  color: white;
+  font-size: 20px !important;
+  padding: 10px !important;
+  margin-top: 30px;
+  font-weight: bolder !important;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
