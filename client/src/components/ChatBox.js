@@ -17,16 +17,16 @@ class ChatBox extends Component {
     this.scrollToBottom();
   }
 
-   handleSendMessage = event => {
-     event.preventDefault();
-     const {message} = this.state;
-     this.onSubmit(message);
-     this.setState({message: ''});
-   };
-   scrollToBottom = () => {
-     const chat = document.getElementById('end-of-chat');
-     chat.scrollIntoView();
-   };
+  handleSendMessage = event => {
+    event.preventDefault();
+    const {message} = this.state;
+    this.onSubmit(message);
+    this.setState({message: ''});
+  };
+  scrollToBottom = () => {
+    const chat = document.getElementById('end-of-chat');
+    chat.scrollIntoView();
+  };
 
   onSubmit = (message) => {
         this.props.messages.push({ 
@@ -78,15 +78,15 @@ awaein= (messages) =>{console.log(messages)}
   }
 }
 
- ChatBox.propTypes = {
-   messages: PropTypes.array,
-   onSubmit: PropTypes.func,
-   isLoading: PropTypes.bool,
-   user: PropTypes.object,
-   renderMessage: PropTypes.func,
-   typingListener: PropTypes.func,
-   typingIndicator: PropTypes.element,
- };
+ChatBox.propTypes = {
+  messages: PropTypes.array,
+  onSubmit: PropTypes.func,
+  isLoading: PropTypes.bool,
+  user: PropTypes.object,
+  renderMessage: PropTypes.func,
+  typingListener: PropTypes.func,
+  typingIndicator: PropTypes.element,
+};
 
 
 ChatBox.defaultProps = {
@@ -112,4 +112,4 @@ ChatBox.defaultProps = {
   isLoading: false,
 };
 
- export default ChatBox;
+export default ChatBox;

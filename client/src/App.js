@@ -7,8 +7,7 @@ import './App.css';
 import MyNavbar from './components/MyNavbar';
 import LandingPage from './components/LandingPage';
 import ConnectedPage from './components/ConnectedPage';
-import Chat from './components/Chat';
-import ChatBox from './components/chatBox'
+import ChatBox from './components/ChatBox'
 
 function App() {
   return (

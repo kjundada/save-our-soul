@@ -1,6 +1,22 @@
 .main-container {
-  width: 95%;
-  margin: 0 auto;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.chat-column {
+  width: 50%;
+}
+
+.video-column {
+  width: 30%;
+}
+
+#remoteVideo {
+  width: 150%;
+}
+
+#localVideo {
+  width: 30%;
 }
 
 .brand {
@@ -9,18 +25,6 @@
   margin-left: -50px !important;
   display: block;
   color: white;
-}
-
-.box-1, .box-2 {
-  width: 49.75%;
-}
-
-.box-1 {
-  float: left;
-}
-
-.box-2 {
-  float: right;
 }
 
 .video {

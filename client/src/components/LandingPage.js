@@ -22,7 +22,7 @@ class LandingPage extends Component {
         }
     }
     onClick = () => {
-        window.location = "/connect";
+        window.location = `/connect?op=${this.state.selected_op}&problem=${this.state.selected_problem}`;
     }
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value });
