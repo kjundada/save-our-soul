@@ -75,18 +75,21 @@ export default function ConnectedPage() {
     socket.on('offer', function(description) {
       const peerConnection = new RTCPeerConnection(config);
       if (localVideo instanceof HTMLVideoElement) {
-          peerConnection.addStream(remoteVideo.srcObject);
+          peerConnection.addStream(localVideo.srcObject);
       }
+
       peerConnection.setRemoteDescription(description)
       .then(() => peerConnection.createAnswer())
       .then(sdp => peerConnection.setLocalDescription(sdp))
       .then(function () {
         socket.emit('offer_ok', peerConnection.localDescription);
       });
+
       peerConnection.onaddstream = (event) => {
         remoteVideo.srcObject = event.stream;
         // handleSysInfo('partner_connected');
       };
+      
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
           socket.emit('candidate', event.candidate);
