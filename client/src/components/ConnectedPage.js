@@ -12,6 +12,7 @@ let socket;
 let localVideo;
 let remoteVideo;
 let peerConnection;
+let messagesAll = [];
 
 
 /** @type {RTCConfiguration} */
@@ -46,14 +47,7 @@ export default function ConnectedPage() {
 
     socket.on('sysinfo', handleSysInfo);
 
-    socket.on('msg', function(msg) { //whenever a msg is recieved by the client
-      // write the partner's message to the list
-      setMessages([...messages, { 
-        "text": msg.content,
-        "id": messages.length+1,
-        "sender": { "name": "Stranger", "uid": "user2"},
-      }]);
-    });
+    socket.on('msg', addPartnerMsg);
 
     socket.on('ready', function() {
       console.log("Client is getting ready", localVideo, remoteVideo);
@@ -69,7 +63,7 @@ export default function ConnectedPage() {
       peerConnection.onaddstream = (event) => {
         remoteVideo.srcObject = event.stream;
         console.log("Setting remote video stream");
-        handleSysInfo('partner_connected');
+        // handleSysInfo('partner_connected');
       }
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
@@ -91,7 +85,7 @@ export default function ConnectedPage() {
       });
       peerConnection.onaddstream = (event) => {
         remoteVideo.srcObject = event.stream;
-        handleSysInfo('partner_connected');
+        // handleSysInfo('partner_connected');
       };
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
@@ -120,16 +114,18 @@ export default function ConnectedPage() {
 
 
   function clear(){
+    messagesAll = [];
     setMessages([]); //clear messages
   }
 
   function addSysLog(msg) {
     console.log(msg);
-    setMessages([...messages, { 
+    messagesAll = [...messagesAll, { 
       "text": msg,
       "id": messages.length+1,
       "sender": { "name": "System", "uid": "sys",},
-    }]);
+    }]
+    setMessages(messagesAll);
   }
 
   function writeSytemInfo(code) {
@@ -154,14 +150,26 @@ export default function ConnectedPage() {
     }
   }  
 
+  function addPartnerMsg(msg) { //whenever a msg is recieved by the client
+    // write the partner's message to the list
+    console.log(messagesAll);
+    messagesAll = [...messagesAll, { 
+      "text": msg.content,
+      "id": messages.length+1,
+      "sender": { "name": "Stranger", "uid": "user2"},
+    }]
+    setMessages(messagesAll);
+  }
+
   function sendMessage(msg) {
     if (hasPartner && msg.replace(/\s+/g, '').length > 0) {
       socket.emit('msg', msg);
-      setMessages([...messages, { 
+      messagesAll = [...messages, { 
         "text": msg,
         "id": messages.length+1,
         "sender": { "name": "Me", "uid": "user1",},
-      }]);
+      }]
+      setMessages(messagesAll);
       return true;
     }
     else {
@@ -171,9 +179,9 @@ export default function ConnectedPage() {
   }
 
   function nextPartner() {
-    //     handleSysInfo('partner_disconnected');
     disconnectFromPartner();
-    handleSysInfo('waiting_partner');
+    sendLocalInfo();
+    setHasPartner(false);
     socket.emit('next');
   }
 
