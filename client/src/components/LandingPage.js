@@ -15,7 +15,7 @@ class LandingPage extends Component {
         this.state = {
             problems        : ["lonely", "suicidal", "extremely depressed",
                             "homesick", "betrayed", "the loss of loved one",
-                            "to harm myself"],
+                            "like committing self-harm"],
             ops             : ["help", "seek help"],
             selected_op     : "help",
             selected_problem: "lonely",
