@@ -14,6 +14,7 @@ app.use(morgan('dev'));
 
 const server = http.createServer(app);
 
+console.log("Going to run at port", PORT);
 
 chatHandler.init(io(server), app);
 
