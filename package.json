@@ -6,10 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "heroku-postbuild": "node app.js && cd app && npm install && npm run build && mv build .."
+    "heroku-postbuild": "cd app && npm install && npm run build && mv build .."
   },
-  "author": "Gabriel Nunes",
-  "license": "MIT",
+  "author": "Zoraiz Qureshi & Fahad Fareed & Saad Ullah",
   "dependencies": {
     "express": "^4.17.1",
     "lodash": "^4.17.19",
