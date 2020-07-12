@@ -35,7 +35,7 @@ export default function ConnectedPage() {
   let [messages, setMessages] = useState([]);
 
   React.useEffect(()=>{
-    socket = io('http://localhost:4000');
+    socket = io(window.serverURI);
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
 
