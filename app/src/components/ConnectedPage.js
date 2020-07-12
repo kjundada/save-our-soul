@@ -18,13 +18,16 @@ let messagesAll = [];
 /** @type {RTCConfiguration} */
 const config = {
 'iceServers': [{
-    'urls': ['stun:stun.l.google.com:19302']
+    'urls': ['stun:stun.l.google.com:19302', 
+    'stun:stun1.l.google.com:19302', 
+    'stun:stun2.l.google.com:19302',
+    'stun:stun3.l.google.com:19302']
 }]
 };
 
 /** @type {MediaStreamConstraints} */
 const constraints = {
-  audio: true,
+  // audio: true,
   video: { facingMode: "user" }
 };
 
@@ -56,17 +59,21 @@ export default function ConnectedPage() {
       
       peerConnection = new RTCPeerConnection(config);
       peerConnection.addStream(localVideo.srcObject);
+
       peerConnection.createOffer()
       .then(sdp => peerConnection.setLocalDescription(sdp))
       .then(function () {
         console.log("client emitting offer", peerConnection.localDescription);
         socket.emit('ready', peerConnection.localDescription);
       });
+
       peerConnection.onaddstream = (event) => {
+        console.log(event);
         remoteVideo.srcObject = event.stream;
         console.log("Setting remote video stream");
         // handleSysInfo('partner_connected');
       }
+
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
           socket.emit('candidate', event.candidate);
@@ -75,9 +82,10 @@ export default function ConnectedPage() {
     });
 
     socket.on('offer', function(description) {
+      console.log(description);
       const peerConnection = new RTCPeerConnection(config);
       if (localVideo instanceof HTMLVideoElement) {
-          peerConnection.addStream(localVideo.srcObject);
+        peerConnection.addStream(localVideo.srcObject);
       }
 
       peerConnection.setRemoteDescription(description)
@@ -89,6 +97,8 @@ export default function ConnectedPage() {
 
       peerConnection.onaddstream = (event) => {
         remoteVideo.srcObject = event.stream;
+        console.log("Setting remote video stream");
+
         // handleSysInfo('partner_connected');
       };
 
