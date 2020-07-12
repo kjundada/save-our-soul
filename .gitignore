@@ -1,7 +1,5 @@
 client/node_modules
-client2/node_modules
-server/node_modules
+node_modules
 client/package-lock.json
-client2/package-lock.json
-server/package-lock.json
+package-lock.json
 build

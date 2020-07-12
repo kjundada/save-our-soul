@@ -1,6 +1,6 @@
 import $ from 'jquery'; 
 
-window.serverURI = 'https://save-our-soul.herokuapp.com/:4000';
+window.serverURI = 'https://save-our-soul.herokuapp.com:4000';
 // window.serverURI = 'http://localhost:4000';
 
 getOnlineCount();

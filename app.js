@@ -9,7 +9,7 @@ start();
 
 function start() {
   chatHandler.init(io, express);
-  http.listen(config.port, function() {
+  http.listen(process.env.PORT || config.port, function() {
     console.log('listening on', config.port);
   });
 }
