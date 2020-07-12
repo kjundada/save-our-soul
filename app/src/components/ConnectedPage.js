@@ -38,6 +38,8 @@ export default function ConnectedPage() {
     socket = io(window.serverURI);
     localVideo = document.getElementById('localVideo');
     remoteVideo = document.getElementById('remoteVideo');
+    localVideo.volume = 0;
+    remoteVideo.volume = 0;
 
     navigator.mediaDevices.getUserMedia(constraints)
     .then(stream => localVideo.srcObject = stream)
