@@ -103,22 +103,64 @@ function chatHandler() {
     }
   }
 
+  function sortByPriority(client) {
+    let sortedList = [];
+    let clientInfo = client.getchatInfo();
+    // 1) Opposite OP & same Problem
+    for (let c of waitingList) {
+      if (c.id != client.id) {
+        let cInfo = c.getchatInfo();
+        if (cInfo["op"] != clientInfo["op"] && cInfo["problem"] == clientInfo["problem"]) {
+          sortedList.push(c)
+        } 
+      }
+    }
+    // 2) Opposite OP & any Problem
+    for (let c of waitingList) {
+      if (c.id != client.id) {
+        let cInfo = c.getchatInfo();
+        if (cInfo["op"] != clientInfo["op"] && cInfo["problem"] != clientInfo["problem"]) {
+          sortedList.push(c)
+        } 
+      }
+    }
+    // 3) Same OP & Same Problem
+    for (let c of waitingList) {
+      if (c.id != client.id) {
+        let cInfo = c.getchatInfo();
+        if (cInfo["op"] == clientInfo["op"] && cInfo["problem"] == clientInfo["problem"]) {
+          sortedList.push(c)
+        } 
+      }
+    }
+    // 3) Rest
+    for (let c of waitingList) {
+      if (c.id != client.id) {
+        let cInfo = c.getchatInfo();
+        if (cInfo["op"] == clientInfo["op"] && cInfo["problem"] != clientInfo["problem"]) {
+          sortedList.push(c)
+        } 
+      }
+    }
+    return sortedList;
+  }
+
   function onRequestNext(client) {
     try {
+      console.log("Client: ", client.getchatInfo());
+
       let partner = false;
-      // console.log("Finding a new partner");
 
       client.disconnectFromPartner();
       client.sendSystemInfo('waiting_partner');
+      let sortedWaitingList = sortByPriority(client);
 
-      for (let possiblePartner of waitingList) {
+      for (let possiblePartner of sortedWaitingList) {
         if (client.isValidPartner(possiblePartner)) {
           partner = possiblePartner;
           break;
         }
-      }
-
-      // console.log("Partner", partner);
+      }      
 
       if (!partner) {
         if (!_.some(waitingList, ['id', client.id])) {

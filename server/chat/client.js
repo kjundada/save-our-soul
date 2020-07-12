@@ -113,9 +113,9 @@ function client(socket) {
     // console.log("checking if valid partner");
     if (partner.id !== socket.id && partner.isWaiting()) {
       const partnerInfo = partner.getchatInfo();
-      if (partnerInfo.op === chatInfo.op) { // do not connect helpers with helpers and vice versa 
-        return false;
-      }
+      // if (partnerInfo.op === chatInfo.op) { // do not connect helpers with helpers and vice versa 
+      //   return false;
+      // }
 
       let isReturningPartner = !!partnersMap[partner.id];
       if (isReturningPartner) {
