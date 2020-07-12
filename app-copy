@@ -1,0 +1,34 @@
+'use strict';
+const express = require('express')();
+const http = require('http').Server(express);
+const io = require('socket.io')(http);
+const config = require('./config');
+const chatHandler = require('./chat/handler')();
+const path = require('path');
+
+// const bodyParser = require('body-parser');
+
+// Define Global Variables
+const app = express();
+const log = console.log;
+const PORT = config.port;
+
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static( 'client/build' ));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); 
+  });
+}
+
+
+start();
+
+function start() {
+  chatHandler.init(io, express);
+
+  app.listen(PORT, () => {
+    log(`Server is starting at PORT: ${PORT}`);
+  });
+}
