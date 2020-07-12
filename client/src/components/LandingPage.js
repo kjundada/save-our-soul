@@ -73,6 +73,15 @@ class LandingPage extends Component {
                         </div>
                         <Button className="chat-btn">Start Chat</Button>
                     </Form>
+                    <br/>
+                    <div className="intro">                        
+                        Hey! We know quarantine has been hard on all of us. 
+                        We are separated from our family, have to face the 
+                        loss of our loved ones. Even if you just feel lonely 
+                        or depressed, we want you to know we are here for you. 
+                        Here you can seek help from your peers. 
+                        We hope this helps!!
+                    </div>
                 </div>
             </div>
         );

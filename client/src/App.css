@@ -136,11 +136,14 @@
   color: white;
   text-align: center;
   width: 40%;
+  margin-top: 3vh;
 }
 
 .drop-it {
   width: 40%;
   margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: 2px solid white !important;
   border-radius: 5px !important;
 }
@@ -172,6 +175,7 @@
   padding-top: 20px;
   font-family: fantasy;
 }
+
 @import 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css';
 @import 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
@@ -352,7 +356,7 @@
 }
 
 .loading-text {
-  color: #1546dc;
+  color: #363636;
   font-size: 25px;
   margin-top: 20px;
 }
@@ -418,6 +422,12 @@
 .online-count {
   color: white;
   font-size: 1rem;
+}
+
+.intro {
+  font-size: large;
+  width: 69%;
+  margin-left: 15%;
 }
 
 @media screen and (max-width: 1024px) { /* Specific to this particular image */

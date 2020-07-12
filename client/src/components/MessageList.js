@@ -6,25 +6,13 @@ export default function MessageList({isLoading, messages, user, renderMessage}) 
   
   let chatContent = (
     <div className='loading-messages-container'>
-      <MDSpinner size='100' />
+      <MDSpinner size='100' singleColor="grey"/>
       <span className='loading-text'>Loading Messages</span>
     </div>
   );
 
-  if (!isLoading && !messages.length) {
-    chatContent = (
-      <div className='text-center img-fluid empty-chat'>
-        
-        <div>
-          <h2> No new message? </h2>
-          <h6 className='empty-chat-sub-title'>
-            Send your first message below.
-          </h6>
-        </div>
-      </div>
-    );
-  } else if (!isLoading && messages.length) {
-    chatContent = messages.map(message => {
+  if (!isLoading && messages.length) {
+    return messages.map(message => {
       if (renderMessage){
         return renderMessage(message);
       }
