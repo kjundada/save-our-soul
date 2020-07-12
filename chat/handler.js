@@ -12,16 +12,16 @@ function chatHandler() {
 
   return {init};
 
-  function init(_io, express) {
+  function init(_io, app) {
     io = _io;
-    io.on('connection', onConnet);
-    express.use(expressConfigs);
-    express.disable('x-powered-by');
-    express.get('/', getServerInfo);
+    io.on('connection', onConnect);
+    app.use(appConfigs);
+    app.disable('x-powered-by');
+    app.post('/info', getServerInfo);
     setInterval(refreshConsole, 5000);
   }
 
-  function expressConfigs(req, res, next) {
+  function appConfigs(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers',
               'Origin, X-Requested-With, Content-Type, Accept');
@@ -36,7 +36,7 @@ function chatHandler() {
     process.stdout.write(`Clients:  ${clientList.length} | Waiting: ${waitingList.length} \r`);
   }
 
-  function onConnet(socket) {
+  function onConnect(socket) {
     let client = new Client(socket);
 
     socket.on('disconnect', () => onDisconnect(client));
