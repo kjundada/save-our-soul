@@ -13,7 +13,7 @@ const app = express();
 app.use(morgan('dev'));
 
 
-console.log("Running in ", process.env.NODE_ENV);
+console.log("Running in", process.env.NODE_ENV);
 
 app.use(express.static( 'build' ));
 

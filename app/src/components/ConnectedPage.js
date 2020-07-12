@@ -24,8 +24,8 @@ const config = {
 
 /** @type {MediaStreamConstraints} */
 const constraints = {
-// audio: true,
-video: { facingMode: "user" }
+  audio: true,
+  video: { facingMode: "user" }
 };
 
 export default function ConnectedPage() {
@@ -152,7 +152,6 @@ export default function ConnectedPage() {
 
   function addPartnerMsg(msg) { //whenever a msg is recieved by the client
     // write the partner's message to the list
-    console.log(messagesAll);
     messagesAll = [...messagesAll, { 
       "text": msg.content,
       "id": messages.length+1,
