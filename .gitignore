@@ -4,3 +4,4 @@ server/node_modules
 client/package-lock.json
 client2/package-lock.json
 server/package-lock.json
+build
