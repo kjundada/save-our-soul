@@ -30,7 +30,7 @@
   background-color: black;
   align-items: baseline;
   width: 40%;
-  height: 60%;
+  height: 30vw;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -43,7 +43,7 @@
 }
 
 .button-row {
-  margin-top: 280%;
+  margin-top: 61vh;
 }
 
 .vid{
@@ -53,11 +53,12 @@
   border-width: 30%;
   box-shadow: black;
 }
+
 .brand-aaa {
   position: absolute;
-  left: 45%;
+  left: 47%;
   margin-left: -100px !important;
-  font-size: 300%;
+  font-size: 250%;
   font-family: cursive;
   font-weight: bolder;
   display: block;
@@ -82,21 +83,32 @@
 }
 
 .landing {
-  height: 100vh;
   background: url(./img/background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+	
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .conn {
-  height: 98vh;
-  background: url(./img/background2.jpg) no-repeat center center fixed;
+  background: url(./img/background2.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+	
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .conn-h {
@@ -311,7 +323,7 @@
   margin-top: 2%;
   font-family: 'Roboto';
   position: relative;
-  height: 97%;
+  height: 95%;
   letter-spacing: 0.5px;
   background: #f8f9fb;
   padding: 0 !important;
@@ -392,11 +404,19 @@
   background: transparent;
 }
 
+.button-left-icon {
+  margin-right: 2px;
+}
+
+
 .online-count {
   color: white;
   font-size: 1rem;
 }
 
-.button-left-icon {
-  margin-right: 2px;
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  .online-count {
+    color: black;
+    font-size: 1rem;
+  }
 }

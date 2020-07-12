@@ -6,7 +6,7 @@ import ChatBox from "./ChatBox";
 import MyNavbar from "./MyNavbar";
 import deepai from "deepai";
 
-deepai.setApiKey('quickstart-QUdJIGlzIGNvbWluZy4uLi4K');
+deepai.setApiKey('bc5faa9f-b64f-46fb-a1a3-3f577fd12f1c');
 
 let socket;
 let localVideo;
@@ -209,7 +209,7 @@ export default function ConnectedPage() {
   }
 
 
-  function report(){
+  async function report(){
     if (hasPartner) {
       console.log("Reporting your partner");
       const canvas = document.createElement('canvas');
@@ -220,24 +220,23 @@ export default function ConnectedPage() {
       ctx.drawImage(remoteVideo, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL("image/jpeg", 0.8);      
 
-      (async function() {
-          deepai.callStandardApi("nsfw-detector", {
-                  image: imageData,
-          }).then(response => {
-            console.log(response);
-            if (Number(response.nsfw_score) >= 0.6){
-              alert(`Reporting. Found content consisting of nudity in partner's stream (nsfw score: ${response.nsfw_score}).`);
-            }
-            else {
-              alert("Invalid report.");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })()
 
-      
+      deepai.callStandardApi("content-moderation", {
+        image: imageData,
+      }).then(response => {
+        console.log(response);
+        const nsfw_score = Number(response.output.nsfw_score);
+        if (nsfw_score >= 0.6){
+          alert(`Reporting. Found content consisting of nudity in partner's stream (nsfw score: ${nsfw_score.toFixed(3)}).`);
+          nextPartner();
+        }
+        else {
+          alert(`Invalid report. Moderated content. ${nsfw_score.toFixed(3)}`);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
   }
 
