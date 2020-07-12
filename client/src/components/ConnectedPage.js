@@ -4,7 +4,15 @@ import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 import ChatBox from "./ChatBox";
 import MyNavbar from "./MyNavbar";
+import deepai from "deepai";
+
+deepai.setApiKey('quickstart-QUdJIGlzIGNvbWluZy4uLi4K');
+
 let socket;
+let localVideo;
+let remoteVideo;
+let peerConnection;
+
 
 /** @type {RTCConfiguration} */
 const config = {
@@ -22,10 +30,6 @@ video: { facingMode: "user" }
 export default function ConnectedPage() {
   const query = new URLSearchParams(useLocation().search);
   const info = {op: query.get('op'), problem: query.get('problem')};
-  let localVideo;
-  let remoteVideo;
-  let peerConnection;
-  let partnerIsStreaming = false;
   let [hasPartner, setHasPartner] = useState(false);
   let [messages, setMessages] = useState([]);
 
@@ -40,7 +44,7 @@ export default function ConnectedPage() {
     
     nextPartner();
 
-    socket.on('sysinfo', sendLocalInfo);
+    socket.on('sysinfo', handleSysInfo);
 
     socket.on('msg', function(msg) { //whenever a msg is recieved by the client
       // write the partner's message to the list
@@ -110,7 +114,7 @@ export default function ConnectedPage() {
 
     socket.on('disconnect', () => handleSysInfo('server_disconnection'));
 
-    // socket.on('leaving', () => handleSysInfo('partner_disconnected'));
+    socket.on('leaving', () => handleSysInfo('partner_disconnected'));
 
     }, [])
 
@@ -177,8 +181,7 @@ export default function ConnectedPage() {
     setHasPartner(false);
     if (peerConnection && peerConnection.close) peerConnection.close();
     peerConnection = null;
-    partnerIsStreaming = false;
-    // socket.emit('disconnect');
+    socket.emit('leaving');
   }
 
   function sendLocalInfo(){
@@ -205,6 +208,40 @@ export default function ConnectedPage() {
     writeSytemInfo(code);
   }
 
+
+  function report(){
+    if (hasPartner) {
+      console.log("Reporting your partner");
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = remoteVideo.videoWidth;
+      canvas.height = remoteVideo.videoHeight;
+      ctx.drawImage(remoteVideo, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL("image/jpeg", 0.8);      
+
+      (async function() {
+          deepai.callStandardApi("nsfw-detector", {
+                  image: imageData,
+          }).then(response => {
+            console.log(response);
+            if (Number(response.nsfw_score) >= 0.6){
+              alert(`Reporting. Found content consisting of nudity in partner's stream (nsfw score: ${response.nsfw_score}).`);
+            }
+            else {
+              alert("Invalid report.");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })()
+
+      
+    }
+  }
+
+
   return (        
     <div className="conn">
         <div className="row" >
@@ -219,11 +256,22 @@ export default function ConnectedPage() {
           <div className = "column video-column">
             <div className="row video-row" >
               <video className = "vid" id="remoteVideo" style={{display: hasPartner ? 'block' : 'none'}} playsInline autoPlay></video>
+              {
+                !hasPartner && <div className="vid" id="videoPlaceholder">
+                  <img id="loadingGif" src="https://cdn.dribbble.com/users/1303437/screenshots/4952713/attachments/1110126/abstract-loader-white.gif" alt="loading"/>
+                </div>
+              }
               <video className = "vid" id="localVideo" playsInline autoPlay></video>
             </div>
             <div className="row button-row" >
-              <button className="button" onClick={nextPartner} >Next</button>
-              <button className="button" onClick >Report</button>
+              <button className="button" onClick={nextPartner} >
+                <i className="fa fa-arrow-circle-right button-left-icon"></i>
+                Next
+              </button>
+              <button className="button" onClick={report} >
+                <i className="fa fa-flag button-left-icon" style={{fontSize: 'medium'}}></i>
+                Report
+              </button>
             </div>
           </div>
         </div>

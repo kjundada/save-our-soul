@@ -10,9 +10,9 @@
 }
 
 .video-column {
-  margin-top: 1%;
+  margin-top: 2%;
   margin-left: 5%;
-  height: 90vh;
+  height: 60vh;
 }
 
 #remoteVideo {
@@ -26,8 +26,24 @@
   position: absolute;
 }
 
+#videoPlaceholder {
+  background-color: black;
+  align-items: baseline;
+  width: 40%;
+  height: 60%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+#loadingGif {
+  width: 120px;
+  height: 90px;
+  margin: auto;
+}
+
 .button-row {
-  margin-top: 300%;
+  margin-top: 280%;
 }
 
 .vid{
@@ -101,7 +117,7 @@
 
 .center {
   position: absolute;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
@@ -180,6 +196,7 @@
 .avatar {
   width: 50px;
   height: 50px;
+  border-radius: 10px;
 }
 
 .header-icons {
@@ -214,8 +231,8 @@
   font-weight: bold;
   border-radius: 15%;
   height: 40px;
-  width:80px;
-  margin:10px;
+  width: 100px;
+  margin: 5px;
 }
 
 .input-group {
@@ -290,9 +307,10 @@
 }
 
 .chat-box {
+  margin-top: 2%;
   font-family: 'Roboto';
   position: relative;
-  height: 100%;
+  height: 97%;
   letter-spacing: 0.5px;
   background: #f8f9fb;
   padding: 0 !important;
@@ -350,6 +368,12 @@
 }
 
 .is-other {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1)
+}
+
+.is-sys {
   background-color: #c0c0c0;
   -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1)
@@ -370,4 +394,8 @@
 .online-count {
   color: white;
   font-size: 1rem;
+}
+
+.button-left-icon {
+  margin-right: 2px;
 }
