@@ -89,7 +89,7 @@ export default function ConnectedPage() {
         remoteVideo.srcObject = event.stream;
         // handleSysInfo('partner_connected');
       };
-      
+
       peerConnection.onicecandidate = function(event) {
         if (event.candidate) {
           socket.emit('candidate', event.candidate);
@@ -264,13 +264,13 @@ export default function ConnectedPage() {
           </div>
           <div className = "column video-column">
             <div className="row video-row" >
-              <video className = "vid" id="remoteVideo" style={{display: hasPartner ? 'block' : 'none'}} playsInline autoPlay></video>
+              <video className = "vid" id="remoteVideo" style={{display: hasPartner ? 'block' : 'none'}} playsInline autoPlay muted></video>
               {
                 !hasPartner && <div className="vid" id="videoPlaceholder">
                   <img id="loadingGif" src="https://cdn.dribbble.com/users/1303437/screenshots/4952713/attachments/1110126/abstract-loader-white.gif" alt="loading"/>
                 </div>
               }
-              <video className = "vid" id="localVideo" playsInline autoPlay></video>
+              <video className = "vid" id="localVideo" playsInline autoPlay muted></video>
             </div>
             <div className="row button-row" >
               <button className="button" onClick={nextPartner} >
