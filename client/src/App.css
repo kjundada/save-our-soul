@@ -404,6 +404,12 @@
   background: transparent;
 }
 
+.navbar-text {
+  color: rgb(104, 104, 104) !important;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .button-left-icon {
   margin-right: 2px;
 }
