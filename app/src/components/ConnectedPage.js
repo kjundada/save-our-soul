@@ -75,7 +75,7 @@ export default function ConnectedPage() {
     socket.on('offer', function(description) {
       const peerConnection = new RTCPeerConnection(config);
       if (localVideo instanceof HTMLVideoElement) {
-          peerConnection.addStream(localVideo.srcObject);
+          peerConnection.addStream(remoteVideo.srcObject);
       }
       peerConnection.setRemoteDescription(description)
       .then(() => peerConnection.createAnswer())
