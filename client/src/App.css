@@ -4,22 +4,20 @@
 }
 
 .chat-column {
-  width: 30%;
-  margin-left: 30%;
-  margin: 1%;
-  height: 100%;
+  width: 40%;
+  margin-left: 5%;
+  height: 90vh;
 }
 
 .video-column {
-  width: 50%;
-  margin-left: 30%;
-  margin: 1%;
-  height: 100%;
+  margin-top: 1%;
+  margin-left: 5%;
+  height: 90vh;
 }
 
 #remoteVideo {
   align-items: baseline;
-  width: 50%;
+  width: 40%;
   position: absolute;
 }
 
@@ -27,6 +25,11 @@
   width: 10%;
   position: absolute;
 }
+
+.button-row {
+  margin-top: 300%;
+}
+
 .vid{
   border-radius: 20%;
   overflow: hidden;
@@ -36,7 +39,7 @@
 }
 .brand-aaa {
   position: absolute;
-  left: 50%;
+  left: 45%;
   margin-left: -100px !important;
   font-size: 300%;
   font-family: cursive;
@@ -69,17 +72,15 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  z-index: -999;
 }
 
 .conn {
-  height: 100vh;
+  height: 98vh;
   background: url(./img/background2.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  z-index: -999;
 }
 
 .conn-h {
@@ -209,11 +210,11 @@
   border: black;
   background-color: darkgray;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
   border-radius: 15%;
-  height: 50px;
-  width:110px;
+  height: 40px;
+  width:80px;
   margin:10px;
 }
 
@@ -345,7 +346,7 @@
 }
 
 .is-user {
-  background-color: #808080;
+  background-color: #212529;
 }
 
 .is-other {
@@ -360,4 +361,13 @@
 
 .video-container {
   position:relative;
+}
+
+.navbar-main {
+  background: transparent;
+}
+
+.online-count {
+  color: white;
+  font-size: 1rem;
 }

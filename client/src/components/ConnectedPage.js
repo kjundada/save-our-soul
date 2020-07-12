@@ -37,17 +37,18 @@ export default function ConnectedPage() {
     navigator.mediaDevices.getUserMedia(constraints)
     .then(stream => localVideo.srcObject = stream)
     .catch(err => console.log(err));
+    
+    nextPartner();
 
     socket.on('sysinfo', sendLocalInfo);
 
     socket.on('msg', function(msg) { //whenever a msg is recieved by the client
       // write the partner's message to the list
-      messages.push({ 
+      setMessages([...messages, { 
         "text": msg.content,
         "id": messages.length+1,
         "sender": { "name": "Stranger", "uid": "user2"},
-      });
-      setMessages(messages);
+      }]);
     });
 
     socket.on('ready', function() {
@@ -109,6 +110,8 @@ export default function ConnectedPage() {
 
     socket.on('disconnect', () => handleSysInfo('server_disconnection'));
 
+    // socket.on('leaving', () => handleSysInfo('partner_disconnected'));
+
     }, [])
 
 
@@ -118,13 +121,11 @@ export default function ConnectedPage() {
 
   function addSysLog(msg) {
     console.log(msg);
-
-    messages.push({ 
+    setMessages([...messages, { 
       "text": msg,
       "id": messages.length+1,
       "sender": { "name": "System", "uid": "sys",},
-    });
-    setMessages(messages);
+    }]);
   }
 
   function writeSytemInfo(code) {
@@ -152,12 +153,11 @@ export default function ConnectedPage() {
   function sendMessage(msg) {
     if (hasPartner && msg.replace(/\s+/g, '').length > 0) {
       socket.emit('msg', msg);
-      messages.push({ 
+      setMessages([...messages, { 
         "text": msg,
         "id": messages.length+1,
         "sender": { "name": "Me", "uid": "user1",},
-      });
-      setMessages(messages);
+      }]);
       return true;
     }
     else {
@@ -178,6 +178,7 @@ export default function ConnectedPage() {
     if (peerConnection && peerConnection.close) peerConnection.close();
     peerConnection = null;
     partnerIsStreaming = false;
+    // socket.emit('disconnect');
   }
 
   function sendLocalInfo(){
@@ -207,19 +208,22 @@ export default function ConnectedPage() {
   return (        
     <div className="conn">
         <div className="row" >
-          <div classname="col" opacity={0}>ffff</div>
-        <div className = "column chat-column">
-          <ChatBox className= "chat-column" sendMessage={sendMessage} messages={messages} isLoading={false}/>
+          <MyNavbar/>
         </div>
-        <div className = "column video-column">
-          <div className="row" >
-            <video className = "vid" id="remoteVideo" playsInline autoPlay></video>
+        <br/>
+        <br/>
+        <div className="row" >
+          <div className = "column chat-column">
+            <ChatBox className= "chat-column" sendMessage={sendMessage} messages={messages} isLoading={false}/>
           </div>
-          <div className="row" >
-            <video className = "vid" id="localVideo" playsInline autoPlay></video>
-            <button className="button" id="control" /*onClick={handleStartClick}*/ >Start</button>
-            <button className="button" id="control" onClick >Report</button>
-            <button className="button" id="control" onClick={nextPartner} >Next</button>
+          <div className = "column video-column">
+            <div className="row video-row" >
+              <video className = "vid" id="remoteVideo" style={{display: hasPartner ? 'block' : 'none'}} playsInline autoPlay></video>
+              <video className = "vid" id="localVideo" playsInline autoPlay></video>
+            </div>
+            <div className="row button-row" >
+              <button className="button" onClick={nextPartner} >Next</button>
+              <button className="button" onClick >Report</button>
             </div>
           </div>
         </div>
