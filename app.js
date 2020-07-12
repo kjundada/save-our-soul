@@ -6,7 +6,7 @@ const chatHandler = require('./chat/handler')();
 const morgan = require('morgan');
 const io = require('socket.io');
 // const path = require('path');
-const PORT = process.env.PORT || config.port;
+const PORT = config.port;
 // const HOST = process.env.HOST || config.host;
 const app = express();
 
@@ -14,7 +14,6 @@ app.use(morgan('dev'));
 
 const server = http.createServer(app);
 
-console.log("Going to run at port", PORT);
 
 chatHandler.init(io(server), app);
 
