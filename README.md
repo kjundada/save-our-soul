@@ -13,6 +13,17 @@ Since the start of coronavirus, many people have been facing greater mental stre
 ![Landing](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/151/593/datas/gallery.jpg)
 ![ChatVid](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/151/591/datas/gallery.jpg)
 
+## Instructions
+- The first command builds the client React app after installing client dependencies and moves the build folder to the root directory:
+```
+cd app && npm i && npm run build && mv build .. && cd ..
+```
+- Next just install server dependencies start the NodeJS server in the root directory using
+```
+npm install
+npm start
+```
+
 ## Themes
 - *How do we connect people in unique ways to prevent loneliness* when isolation is their only option?
 - *How do we help people engage with each other in safe ways* when social distancing is not an option?
