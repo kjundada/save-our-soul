@@ -95,6 +95,7 @@
   /* Preserve aspet ratio */
   min-width: 100%;
   min-height: 100%;
+  text-align: center;
 }
 
 .conn {
@@ -127,16 +128,17 @@
   margin-bottom: 3%;
 }
 
+
 .center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  display: inline-block;
   color: white;
   text-align: center;
+  align-self: center;
   width: 40%;
-  margin-top: 3vh;
+}
+
+.center h1 {
+  font-size: 3vw;
 }
 
 .drop-it {
@@ -169,7 +171,7 @@
 }
 
 .heading-text {
-  font-size: 800%;
+  font-size: 8vw;
   color: white;
   text-align: center;
   padding-top: 20px;
@@ -357,7 +359,7 @@
 
 .loading-text {
   color: #363636;
-  font-size: 25px;
+  font-size: 1.5vw;
   margin-top: 20px;
 }
 
@@ -425,7 +427,7 @@
 }
 
 .intro {
-  font-size: large;
+  font-size: 1vw;
   width: 69%;
   margin-left: 15%;
 }
@@ -434,5 +436,22 @@
   .online-count {
     color: black;
     font-size: 1rem;
+  }
+
+  .center {
+    margin-top: 3vh;
+    width: 60%;
+  }
+
+  .intro {
+    font-size: 2vh;
+  }
+
+  .loading-text {
+    font-size: 3vw;
+  }
+  
+  .brand-aaa {
+    font-size: 250%;
   }
 }
