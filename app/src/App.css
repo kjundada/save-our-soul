@@ -443,6 +443,13 @@
     width: 60%;
   }
 
+  .chat-btn {
+    width: 70%;
+  }
+
+  .drop-it {
+    width: 60%;
+  }
   .intro {
     font-size: 2vh;
   }
