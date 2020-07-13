@@ -15,7 +15,7 @@ app.use(morgan('dev'));
 
 console.log("Running in", process.env.NODE_ENV);
 
-
+app.use(express.static( 'build' ));
 app.use('/static', express.static(path.join(__dirname, 'build')));
 
 
