@@ -6,6 +6,7 @@
 - [Quarantine Hacks 2020](https://qurantinehacks-2020.devpost.com/)
 
 [![DEMO](https://lh3.googleusercontent.com/proxy/7lmjs7o5DfOlep9XZ3ljYVFQUI5WmSQxLUWdrG1Ack3RrWRt0mAvRUl9jj-G8LCgUhwf310r5AQdsGQPZMiLunCbGm6PVQSBrJnOopO3YXFplwrn8ZrcrHdwP1dAy6qtrmoT_v5SrJVmG2ili318orswVQ_ByZgpdg)](https://youtu.be/ANOH_n2g5HA)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Inspiration
 Since the start of coronavirus, many people have been facing greater mental stress. This could be due to the untimely loss of a loved one to corona, being away from home, being unable to meet friends and family - the people that keep you positive or because of some other deep issues.  There are issues that at times you are unable to share with your closest friends or family members. Therefore, we wanted to create an application that did not only allow us to connect to the people we regularly talk to but also to others whom we have never met. It helps create a safe space where people can talk to each other, discuss their problems, and look for advice. It's like a free therapy session!
